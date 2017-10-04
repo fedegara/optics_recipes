@@ -21,9 +21,9 @@ $router->map('PUT', '/clients/[i:client_id]', ['class' => 'ClientsMethods', 'met
 $router->map('DELETE', '/clients/[i:client_id]', ['class' => 'ClientsMethods', 'method' => 'delete', 'need_login' => true]);
 
 $router->map('GET', '/oculist', ['class' => 'OculistMethods', 'method' => 'getAll', 'need_login' => true]);
+$router->map('GET', '/oculist/[i:oculist_id]', ['class' => 'OculistMethods', 'method' => 'getById', 'need_login' => true]);
 $router->map('POST', '/oculist', ['class' => 'OculistMethods', 'method' => 'create', 'need_login' => true]);
-$router->map('PUT', '/oculist', ['class' => 'OculistMethods', 'method' => 'edit', 'need_login' => true]);
-$router->map('DELETE', '/oculist', ['class' => 'OculistMethods', 'method' => 'delete', 'need_login' => true]);
+$router->map('PUT', '/oculist/[i:oculist_id]', ['class' => 'OculistMethods', 'method' => 'edit', 'need_login' => true]);
 
 
 $router->map('GET', '/', ['html' => 'index.html']);

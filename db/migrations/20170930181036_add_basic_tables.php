@@ -46,6 +46,7 @@ class AddBasicTables extends AbstractMigration
             $oculist->addColumn('name', 'string', ['null' => false]);
             $oculist->addColumn('lastname', 'string', ['null' => false]);
             $oculist->addColumn('professional_code', 'string', ['null' => false]);
+            $clients->addIndex(['professional_code'], ['unique' => true, 'name' => 'unique_professional_code']);
             $oculist->create();
         }
 
@@ -59,6 +60,7 @@ class AddBasicTables extends AbstractMigration
             $recipies->addColumn('observations', 'string');
             $recipies->addForeignKey('oculist_id', 'oculist', 'id', ['delete' => 'cascade']);
             $recipies->addForeignKey('client_id', 'client', 'id', ['delete' => 'cascade']);
+            $clients->addIndex(['client_id', 'oculist_id', 'date'], ['unique' => true, 'name' => 'unique_recipe']);
             $recipies->create();
         }
 
