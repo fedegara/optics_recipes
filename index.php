@@ -29,6 +29,9 @@ $router->map('PUT', '/oculist/[i:oculist_id]', ['class' => 'OculistMethods', 'me
 $router->map('GET', '/brand', ['class' => 'BrandMethods', 'method' => 'getAll', 'need_login' => true]);
 $router->map('POST', '/brand', ['class' => 'BrandMethods', 'method' => 'create', 'need_login' => true]);
 
+$router->map('GET', '/type_crystal', ['class' => 'TypeCristalMethods', 'method' => 'getAll', 'need_login' => true]);
+$router->map('POST', '/type_crystal', ['class' => 'TypeCristalMethods', 'method' => 'create', 'need_login' => true]);
+
 
 $router->map('GET', '/', ['html' => 'index.html']);
 $router->map('GET', '/admin/', ['html' => 'admin.html']);
