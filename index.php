@@ -26,6 +26,10 @@ $router->map('POST', '/oculist', ['class' => 'OculistMethods', 'method' => 'crea
 $router->map('PUT', '/oculist/[i:oculist_id]', ['class' => 'OculistMethods', 'method' => 'edit', 'need_login' => true]);
 
 
+$router->map('GET', '/brand', ['class' => 'BrandMethods', 'method' => 'getAll', 'need_login' => true]);
+$router->map('POST', '/brand', ['class' => 'BrandMethods', 'method' => 'create', 'need_login' => true]);
+
+
 $router->map('GET', '/', ['html' => 'index.html']);
 $router->map('GET', '/admin/', ['html' => 'admin.html']);
 
