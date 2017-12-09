@@ -1,0 +1,195 @@
+{% extends 'main_layout.html.twig' %}
+{% block content %}\
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Recetas</h1>
+            </div>
+        </div>
+        <script>
+            recipe_data_count = 0;
+        </script>
+        <script src="{{ WEB_PATH }}public/js/recipes.js"></script>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <form>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Agregar nueva receta
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input name="id" type="hidden">
+                                    <div class="form-group">
+                                        <label>Cliente</label>
+                                        <select class="form-control" id="clients_list">
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Oculist</label>
+                                        <select class="form-control" id="oculist_list">
+
+                                        </select>
+                                        <button type="button" class="btn btn-info " data-toggle="modal"
+                                                data-target="#new_oculist"><i class="fa fa-plus fa-fw"></i></button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Observaciones</label>
+                                        <textarea id="observations" class="form-control" rows="3"
+                                                  placeholder="Observaciónes de los clientes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Fecha</label>
+                                        <input name="date" required class="form-control" data-type="datepicker"
+                                               placeholder="Fecha de la receta">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>BPS</label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" id="bpsRadio" name="bpsRadio" value="0" checked="">No
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" id="bpsRadio" name="bpsRadio" value="1">Si
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="new_recipe" class="btn btn-success">Agregar receta
+                                    </button>
+                                    <button type="reset" id="clean_form_recipe" class="btn btn-danger">Limpiar
+                                        formulario
+                                    </button>
+                                    <br>
+                                    <button type="button" class="btn btn-info " id="new_line_recipe_data"><i
+                                                class="fa fa-plus fa-fw"></i> Nueva linea
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div id="recipe_data_rows">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="new_oculist" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form id="form_new_oculist">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Agregar oculista</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Codigo de Oculsta</label>
+                            <input name="professional_code" required class="form-control"
+                                   placeholder="Ingrese codigo">
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input name="name" required class="form-control" placeholder="Ingrese nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input name="lastname" required class="form-control" placeholder="Ingrese apellido">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="new_oculist_buttom" class="btn btn-success" data-dismiss="modal">
+                            Agregar
+                        </button>
+                        <button type="reset" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/html" id="recipe_data_row">
+        <div class="col-lg-12" data-type="recipe_data" id="recipe_row_[[data_row_count]]">
+            <div class="col-lg-2">
+                <label>Distancia</label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="distRadio[[data_row_count]]" value="0" checked="">Cerca
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="distRadio[[data_row_count]]" value="1">Lejos
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <label>Ojo</label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="eyeRadio[[data_row_count]]" value="derecho" checked="">Derecho
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="eyeRadio[[data_row_count]]" value="izquierdo">Izquierdo
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <label>Esf</label>
+                <input name="esf"  class="form-control" placeholder="Esferico">
+            </div>
+            <div class="col-lg-1">
+                <label>Cil</label>
+                <input name="cil"  class="form-control" placeholder="Cilindrico">
+            </div>
+            <div class="col-lg-1">
+                <label>Eje</label>
+                <input name="eje"  class="form-control" placeholder="Eje">
+            </div>
+            <div class="col-lg-1">
+                <label>Prisma</label>
+                <input name="prisma"  class="form-control" placeholder="Prisma">
+            </div>
+            <div class="col-lg-1">
+                <label>Dist.Inter</label>
+                <input name="disInt"  class="form-control" placeholder="Distancia Interpupilar">
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="btn btn-danger " id="remove_line_recipe_data"><i
+                            class="fa fa-minus fa-fw"></i> Eliminar
+                </button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="client_row">
+        [[#clients]]
+        <option value="[[id]]">[[ci]] - [[name]] [[lastname]]</option>
+        [[/clients]]
+    </script>
+    <script type="text/html" id="oculist_row">
+        [[#clients]]
+        <option value="[[id]]">[[professional_code]] - [[name]] [[lastname]]</option>
+        [[/clients]]
+    </script>
+{% endblock %}

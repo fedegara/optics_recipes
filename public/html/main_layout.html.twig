@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'header.html.twig' %}
+</head>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ WEB_PATH }}vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{{ WEB_PATH }}vendor/metisMenu/metisMenu.min.js"></script>
+<script src="{{ WEB_PATH }}vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="{{ WEB_PATH }}vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="{{ WEB_PATH }}vendor/datatables-responsive/dataTables.responsive.js"></script>
+<script src="{{ WEB_PATH }}bower_components/mustache.js/mustache.min.js"></script>
+<script src="{{ WEB_PATH }}public/js/spanish_datepicker.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{{ WEB_PATH }}public/js/sb-admin-2.js"></script>
+<script type="text/javascript">
+    $.datepicker.setDefaults({
+        dateFormat:'dd/mm/yy',
+        changeYear:true,
+        yearRange: "1900:2018"
+    });
+    function formattedDate(d) {
+        var month = String(d.getMonth() + 1);
+        var day = String(d.getDate());
+        var year = String(d.getFullYear());
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return year + "-" + month + "-" + day;
+    }
+
+    var WEB_PATH = '{{ WEB_PATH }}';
+    var USER_CLIENT = 'c01ec3607180d8a3bffef7317d53c4f4_15071_48d_e4d_e8';
+</script>
+<body>
+<div id="wrapper">
+    <!-- Navigation -->
+    {% include'menu.html.twig' %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $("[data-type=datepicker]").datepicker();
+    });
+</script>
+</html>

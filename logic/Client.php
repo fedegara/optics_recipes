@@ -106,7 +106,7 @@ class Client
                 return $exists;
             }
         }
-        $this->id = Connect::getInstance()->queryInsert("INSERT INTO client (ci,`name`,lastname,telephone,cellphone,birthdate) VALUES (?,?,?,?,?,?)", [$this->ci, $this->name, $this->lastname, $this->telephone, $this->cellphone, $this->birthdate]);
+        $this->id = Connect::getInstance()->queryInsert("INSERT INTO client (ci,`name`,lastname,telephone,cellphone,birthdate,enable) VALUES (?,?,?,?,?,?,?)", [$this->ci, $this->name, $this->lastname, $this->telephone, $this->cellphone, $this->birthdate,1]);
         if ($this->id != null) {
             return true;
         } else {

@@ -49,36 +49,6 @@ class AddBasicTables extends AbstractMigration
             $clients->addIndex(['professional_code'], ['unique' => true, 'name' => 'unique_professional_code']);
             $oculist->create();
         }
-
-
-        $recipies = $this->table("recipe");
-        if (!$recipies->exists()) {
-            $recipies->addColumn('date', 'datetime');
-            $recipies->addColumn('bps', 'integer', ['limit' => 1]);
-            $recipies->addColumn('oculist_id', 'integer');
-            $recipies->addColumn('client_id', 'integer');
-            $recipies->addColumn('observations', 'string');
-            $recipies->addForeignKey('oculist_id', 'oculist', 'id', ['delete' => 'cascade']);
-            $recipies->addForeignKey('client_id', 'client', 'id', ['delete' => 'cascade']);
-            $clients->addIndex(['client_id', 'oculist_id', 'date'], ['unique' => true, 'name' => 'unique_recipe']);
-            $recipies->create();
-        }
-
-        $recipies_data = $this->table('recipe_data');
-        if (!$recipies_data->exists()) {
-            $recipies_data->addColumn("recipe_id", 'integer');
-            $recipies_data->addColumn("close", 'integer', ['limit' => 1]);
-            $recipies_data->addColumn("distance", 'integer', ['limit' => 1]);
-            $recipies_data->addColumn("eye", 'string');
-            $recipies_data->addColumn("esf", 'string');
-            $recipies_data->addColumn("cil", 'string');
-            $recipies_data->addColumn("eje", 'integer');
-            $recipies_data->addColumn("prisma", 'string');
-            $recipies_data->addColumn("disInt", 'integer');
-            $recipies_data->addForeignKey('recipe_id', 'recipe', 'id', ['delete' => 'cascade']);
-            $recipies_data->create();
-        }
-
         $type_crystal = $this->table("type_crystal");
         if (!$type_crystal->exists()) {
             $type_crystal->addColumn('name', 'string');
@@ -108,6 +78,38 @@ class AddBasicTables extends AbstractMigration
             $lens->addForeignKey('type_crystal_id', 'type_crystal', 'id');
             $lens->create();
         }
+
+
+        $recipies = $this->table("recipe");
+        if (!$recipies->exists()) {
+            $recipies->addColumn('date', 'datetime');
+            $recipies->addColumn('bps', 'integer', ['limit' => 1]);
+            $recipies->addColumn('oculist_id', 'integer');
+            $recipies->addColumn('client_id', 'integer');
+            $recipies->addColumn('lens_id', 'integer');
+            $recipies->addColumn('observations', 'string');
+            $recipies->addForeignKey('oculist_id', 'oculist', 'id', ['delete' => 'cascade']);
+            $recipies->addForeignKey('client_id', 'client', 'id', ['delete' => 'cascade']);
+            $clients->addIndex(['client_id', 'oculist_id', 'date'], ['unique' => true, 'name' => 'unique_recipe']);
+            $recipies->create();
+        }
+
+        $recipies_data = $this->table('recipe_data');
+        if (!$recipies_data->exists()) {
+            $recipies_data->addColumn("recipe_id", 'integer');
+            $recipies_data->addColumn("close", 'integer', ['limit' => 1]);
+            $recipies_data->addColumn("distance", 'integer', ['limit' => 1]);
+            $recipies_data->addColumn("eye", 'string');
+            $recipies_data->addColumn("esf", 'string');
+            $recipies_data->addColumn("cil", 'string');
+            $recipies_data->addColumn("eje", 'integer');
+            $recipies_data->addColumn("prisma", 'string');
+            $recipies_data->addColumn("disInt", 'integer');
+            $recipies_data->addForeignKey('recipe_id', 'recipe', 'id', ['delete' => 'cascade']);
+            $recipies_data->create();
+        }
+
+
 
         $user = $this->table('user');
         if (!$user->exists()) {

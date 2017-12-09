@@ -41,7 +41,7 @@ class ClientsMethods extends BaseMethods
 
     public static function create($ci, $name, $lastname, $telephone, $cellphone, $birthdate)
     {
-        $client = new Client(null, $ci, $name, $lastname, $telephone, $cellphone, $birthdate);
+        $client = new Client(null, $ci, $name, $lastname, $telephone, $cellphone, $birthdate,1);
         if ($client->save()==true) {
             (new JsonResponse())->setData($client)->setStatusCode(RedirectResponse::HTTP_ACCEPTED)->send();
         } else {

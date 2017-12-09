@@ -8,7 +8,6 @@ error_reporting(E_ALL);
 use Symfony\Component\HttpFoundation\Response;
 
 $router = new AltoRouter();
-//$router->setBasePath('/faltauno');
 $router->setBasePath(SITE_FOLDER);
 $router->map('POST', '/login', ['class' => 'UserMethods', 'method' => 'login', 'need_login' => false]);
 
@@ -32,16 +31,26 @@ $router->map('POST', '/brand', ['class' => 'BrandMethods', 'method' => 'create',
 $router->map('GET', '/type_crystal', ['class' => 'TypeCristalMethods', 'method' => 'getAll', 'need_login' => true]);
 $router->map('POST', '/type_crystal', ['class' => 'TypeCristalMethods', 'method' => 'create', 'need_login' => true]);
 
+$router->map('GET', '/recipe', ['class' => 'RecipeMethods', 'method' => 'getAll', 'need_login' => true]);
+$router->map('GET', '/recipe/[i:recipe_id]', ['class' => 'RecipeMethods', 'method' => 'getById', 'need_login' => true]);
+$router->map('POST', '/recipe', ['class' => 'RecipeMethods', 'method' => 'create', 'need_login' => true]);
+
 
 $router->map('GET', '/', ['html' => 'index.html']);
-$router->map('GET', '/admin/', ['html' => 'admin.html']);
+$router->map('GET', '/clients/', ['html' => 'clients.html.twig']);
+$router->map('GET', '/recipes/', ['html' => 'recipes.html.twig']);
 
+
+$twig_loader = new Twig_Loader_Filesystem([ROOT_PATH . 'html/']);
+$twig = new Twig_Environment($twig_loader, ['debug' => true, 'cache' => false]);
+$twig->addGlobal('WEB_PATH',WEB_PATH);
 
 // match current request
 $match = $router->match();
 $params = [];
+
 if (isset($match['target']['html'])) {
-    die(file_get_contents('views/' . $match['target']['html']));
+    die($twig->render($match['target']['html']));
 }
 
 if ($match['target']['need_login'] === true) {
