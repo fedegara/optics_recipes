@@ -53,4 +53,22 @@ class RecipeMethods extends BaseMethods
             parent::errorCall("Error geting recipe");
         }
     }
+
+    public static function delete($recipe_id){
+        if (Recipe::delete($recipe_id)) {
+            (new JsonResponse())->setData("Recipe eliminado correctamente")->setStatusCode(RedirectResponse::HTTP_ACCEPTED)->send();
+        } else {
+            parent::errorCall("Error deleting recipe");
+        }
+    }
+
+
+    public static function getByClientId($client_id)
+    {
+        if (($response = Recipe::getByClientId($client_id)) != false) {
+            (new JsonResponse())->setData($response)->setStatusCode(RedirectResponse::HTTP_ACCEPTED)->send();
+        } else {
+            parent::errorCall("Error geting recipe of client");
+        }
+    }
 }

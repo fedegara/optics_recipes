@@ -6,7 +6,7 @@
  * Date: 14/10/17
  * Time: 15:58
  */
-class RecipeData
+class RecipeData implements JsonSerializable
 {
     public $id, $recipe_id, $close, $distance, $eye, $esf, $cil, $eje, $prisma, $disInt;
 
@@ -78,6 +78,22 @@ class RecipeData
             $this->error = "Error al guardar un nuevo recipe data. Llama a fede ;)";
             return false;
         }
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'recipe_id' => $this->recipe_id,
+            'close' => boolval($this->close),
+            'distance' => boolval($this->distance),
+            'eye' => $this->eye,
+            'esf' => $this->esf,
+            'cil' => $this->cil,
+            'eje' => $this->eje,
+            'prisma' => $this->prisma,
+            'disInt' => $this->disInt
+        ];
     }
 
 

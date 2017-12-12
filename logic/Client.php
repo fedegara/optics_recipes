@@ -6,7 +6,7 @@
  * Date: 30/9/17
  * Time: 17:46
  */
-class Client
+class Client implements JsonSerializable
 {
     public $id, $ci, $name, $lastname, $telephone, $cellphone, $birthdate;
     private static $error;
@@ -106,7 +106,7 @@ class Client
                 return $exists;
             }
         }
-        $this->id = Connect::getInstance()->queryInsert("INSERT INTO client (ci,`name`,lastname,telephone,cellphone,birthdate,enable) VALUES (?,?,?,?,?,?,?)", [$this->ci, $this->name, $this->lastname, $this->telephone, $this->cellphone, $this->birthdate,1]);
+        $this->id = Connect::getInstance()->queryInsert("INSERT INTO client (ci,`name`,lastname,telephone,cellphone,birthdate,enable) VALUES (?,?,?,?,?,?,?)", [$this->ci, $this->name, $this->lastname, $this->telephone, $this->cellphone, $this->birthdate, 1]);
         if ($this->id != null) {
             return true;
         } else {
@@ -138,6 +138,19 @@ class Client
     public static function removeById($id)
     {
         return Connect::getInstance()->nonQuery("UPDATE client SET enable = 0  WHERE id = ?", [$id]);
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            'id'=>$this->id,
+            'ci' => $this->ci,
+            'name' => $this->name,
+            'lastname' => $this->lastname,
+            'telephone' => $this->telephone,
+            'cellphone' => $this->cellphone,
+            'birthdate' => (new DateTime($this->birthdate))->format("d/m/Y")
+        ];
     }
 
 

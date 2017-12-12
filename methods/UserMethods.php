@@ -15,12 +15,12 @@ class UserMethods
     public static function login($username, $password)
     {
         if (($response = User::login($username, $password)) != false) {
-            (new JsonResponse())->setData($response)->setStatusCode(RedirectResponse::HTTP_ACCEPTED)->send();
+            setcookie("user_token", $response->getToken(), time() + 60 * 60 * 24 * 1);
+            header("Location: ".WEB_PATH."clients/");
+            die();
         } else {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            $response->setContent('Bad login');
-            die($response->send());
+            header("Location: ".WEB_PATH."?error=Usuario o clave incorrectos");
+            die();
         }
 
     }

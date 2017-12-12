@@ -33,24 +33,47 @@ $router->map('POST', '/type_crystal', ['class' => 'TypeCristalMethods', 'method'
 
 $router->map('GET', '/recipe', ['class' => 'RecipeMethods', 'method' => 'getAll', 'need_login' => true]);
 $router->map('GET', '/recipe/[i:recipe_id]', ['class' => 'RecipeMethods', 'method' => 'getById', 'need_login' => true]);
+$router->map('GET', '/recipe/client/[i:client_id]', ['class' => 'RecipeMethods', 'method' => 'getByClientId', 'need_login' => true]);
 $router->map('POST', '/recipe', ['class' => 'RecipeMethods', 'method' => 'create', 'need_login' => true]);
+$router->map('DELETE', '/recipe/[i:recipe_id]', ['class' => 'RecipeMethods', 'method' => 'delete', 'need_login' => true]);
 
 
-$router->map('GET', '/', ['html' => 'index.html']);
-$router->map('GET', '/clients/', ['html' => 'clients.html.twig']);
-$router->map('GET', '/recipes/', ['html' => 'recipes.html.twig']);
+$router->map('GET', '/', ['html' => 'login.html.twig', 'need_login_view' => false]);
+$router->map('GET', '/clients/', ['html' => 'clients.html.twig', 'need_login_view' => true]);
+$router->map('GET', '/recipes/', ['html' => 'recipes.html.twig', 'need_login_view' => true]);
 
 
 $twig_loader = new Twig_Loader_Filesystem([ROOT_PATH . 'html/']);
 $twig = new Twig_Environment($twig_loader, ['debug' => true, 'cache' => false]);
-$twig->addGlobal('WEB_PATH',WEB_PATH);
+$twig->addGlobal('WEB_PATH', WEB_PATH);
 
 // match current request
 $match = $router->match();
 $params = [];
 
 if (isset($match['target']['html'])) {
-    die($twig->render($match['target']['html']));
+    $params = [];
+    if (isset($_GET['error'])) {
+        $params['error'] = $_GET['error'];
+    }
+    if ($match['target']['need_login_view']) {
+        if(!isset($_COOKIE['user_token'])){
+            unset($_COOKIE['user_token']);
+            header("Location: " . WEB_PATH );
+            die();
+        }else{
+            $user = User::checkUser($_COOKIE['user_token']);
+            if (!is_object($user)) {
+                unset($_COOKIE['user_token']);
+                header("Location: " . WEB_PATH);
+                die();
+            } else {
+                $params['user_token'] = $user->getToken();
+            }
+        }
+
+    }
+    die($twig->render($match['target']['html'], $params));
 }
 
 if ($match['target']['need_login'] === true) {

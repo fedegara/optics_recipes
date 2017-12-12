@@ -15,7 +15,48 @@ $(document).ready(function () {
         $("#new_client").show();
         $("#edit_client").hide();
     }
+}).on('click','[data-view-recipes-client]',function(event){
+    event.preventDefault();
+    loadRecipesOfClient($(this).attr('data-view-recipes-client'));
+}).on('click','[data-action-erase-recipe]',function(){
+    deleteRecipe($(this).attr('data-action-erase-recipe'));
 });
+
+function deleteRecipe(recipe_id){
+    $.ajax({
+        type: 'DELETE',
+        dataType: 'JSON',
+        url: WEB_PATH + 'recipe/' + recipe_id,
+        headers: {'apikey': USER_CLIENT},
+        success: function (data) {
+            alert("Receta borrada correctamente");
+            $("[data-show-recipe="+recipe_id+"]").remove();
+        },
+        error: function () {
+            alert("Error al borrar la receta")
+        }
+    });
+}
+
+function loadRecipesOfClient(client_id){
+    $.ajax({
+        type: 'GET',
+        dataType: 'JSON',
+        url: WEB_PATH + 'recipe/client/' + client_id,
+        headers: {'apikey': USER_CLIENT},
+        success: function (data) {
+            Mustache.tags = ["[[", "]]"];
+            $("[data-accordion-recipes-client]").html("");
+            $("[data-accordion-recipes-client]").html(Mustache.to_html($("#recipes_clients").html(), {'recipes': data}));
+            $("#show_recipes").modal("show");
+
+        },
+        error: function () {
+            alert("El cliente no tiene recetas")
+        }
+    });
+}
+
 function loadClients() {
     $.ajax({
         type: 'GET',

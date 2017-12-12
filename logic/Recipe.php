@@ -110,6 +110,13 @@ class Recipe implements JsonSerializable
         return $recipe;
     }
 
+    public static function getByClientId($client_id)
+    {
+        return array_map(function ($value) {
+            return self::mysqlConstruct($value);
+        }, Connect::getInstance()->fetchAll("SELECT * FROM recipe WHERE client_id = ?", [$client_id]));
+    }
+
     public function save()
     {
         $sql = "INSERT INTO recipe (date,bps,oculist_id,client_id,observations) VALUES (?,?,?,?,?)";
@@ -122,11 +129,8 @@ class Recipe implements JsonSerializable
         }
     }
 
-    public function delete($id = null)
+    public static function delete($id)
     {
-        if (!$id) {
-            $id = $this->id;
-        }
         $sql = "DELETE FROM recipe WHERE id = ?";
         return count(Connect::getInstance()->nonQuery($sql, [$id])) > 0;
     }
@@ -135,12 +139,13 @@ class Recipe implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'date' => $this->date,
-            'is_bps' => $this->is_bps,
+            'date' => (new DateTime($this->date))->format("d/m/Y"),
+            'is_bps' =>boolval($this->is_bps),
             'observation' => $this->observations,
             'oculist' => $this->getOculist(),
             'client' => $this->getClient(),
             'recipe_data' => $this->getRecipeData()
+            //'bps_enable' =>
         ];
     }
 
