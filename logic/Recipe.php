@@ -135,17 +135,35 @@ class Recipe implements JsonSerializable
         return count(Connect::getInstance()->nonQuery($sql, [$id])) > 0;
     }
 
+    /**
+     * Check if the client has enable bps again
+     * @param $client_id
+     * @return bool
+     */
+    public static function hasBpsEnable($client_id)
+    {
+        $result = Connect::getInstance()->fetchRow("SELECT `date` FROM recipe WHERE bps=1 and client_id = ? ORDER BY `date` DESC LIMIT 1", [$client_id]);
+        if (!is_null($result) and isset($result['date'])) {
+            $date = new DateTime($result['date']);
+            $diff = $date->diff(new DateTime());
+            if ($diff->days >= 330) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     function jsonSerialize()
     {
         return [
             'id' => $this->id,
             'date' => (new DateTime($this->date))->format("d/m/Y"),
-            'is_bps' =>boolval($this->is_bps),
+            'is_bps' => boolval($this->is_bps),
             'observation' => $this->observations,
             'oculist' => $this->getOculist(),
             'client' => $this->getClient(),
             'recipe_data' => $this->getRecipeData()
-            //'bps_enable' =>
         ];
     }
 

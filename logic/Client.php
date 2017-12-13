@@ -149,7 +149,9 @@ class Client implements JsonSerializable
             'lastname' => $this->lastname,
             'telephone' => $this->telephone,
             'cellphone' => $this->cellphone,
-            'birthdate' => (new DateTime($this->birthdate))->format("d/m/Y")
+            'birthdate' => (new DateTime($this->birthdate))->format("d/m/Y"),
+            'bps_enable' => Recipe::hasBpsEnable($this->id)
+
         ];
     }
 

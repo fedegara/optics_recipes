@@ -29,6 +29,7 @@
                                 <th>Fecha Nacimiento</th>
                                 <th>Editar</th>
                                 <th>Ver Recetas</th>
+                                <th>Bps disponible</th>
                             </tr>
                             </thead>
                             <tbody id="table_clients">
@@ -50,6 +51,14 @@
             <td>[[birthdate]]</td>
             <td><i class="fa fa-edit fa-fw" data-edit-client="[[id]]" style="cursor: pointer"></i></td>
             <td><i class="fa fa-eye fa-fw" data-view-recipes-client="[[id]]" style="cursor: pointer"></i></td>
+            <td>
+                [[#bps_enable]]
+                SI
+                [[/bps_enable]]
+                [[^bps_enable]]
+                NO
+                [[/bps_enable]]
+            </td>
         </tr>
         [[/clients]]
     </script>
@@ -207,7 +216,8 @@
                         </table>
                     </div>
                     <div class="row">
-                        <textarea readonly style="width: 100%; min-height: 70px; height: auto;">[[observation]]</textarea>
+                        <textarea readonly
+                                  style="width: 100%; min-height: 70px; height: auto;">[[observation]]</textarea>
                     </div>
                     <div class="row">
                         <button class="btn btn-danger" data-action-erase-recipe="[[id]]">BORRAR RECETA</button>
